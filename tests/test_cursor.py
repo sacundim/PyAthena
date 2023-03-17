@@ -560,6 +560,10 @@ class TestCursor:
         cursor.execute("SHOW PARTITIONS partition_table")
         assert sorted(cursor.fetchall()) == [(f"b={i}",) for i in range(10)]
 
+    def test_msck_repair_table(self, cursor):
+        """Test that the `MSCK REPAIR TABLE` statement works at all."""
+        cursor.execute("MSCK REPAIR TABLE partition_table")
+
     @pytest.mark.parametrize("cursor", [{"work_group": ENV.work_group}], indirect=["cursor"])
     def test_workgroup(self, cursor):
         cursor.execute("SELECT * FROM one_row")
